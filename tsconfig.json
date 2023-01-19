@@ -20,7 +20,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "reforge"
+    "chugsplash"
   ],
   "include": [
     "src/**/*", 

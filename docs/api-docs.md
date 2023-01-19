@@ -1,4 +1,4 @@
-# Reforge API Documentation
+# ChugSplash API Documentation
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ Performs a complete deployment from your local machine.
 
 ### Example
 ```
-string memory configPath = "./reforge/config.js";
+string memory configPath = "./chugsplash/config.js";
 string memory network = "localhost";
 bool silent = false;
 string memory key = vm.envString("PRIVATE_KEY");
@@ -30,7 +30,7 @@ bool withdraw = false;
 string memory newOwner = "self";
 string memory ipfsUrl = "none";
 
-Reforge.ReforgeContract[] memory deployedContracts = reforge.deploy(
+ChugSplash.ChugSplashContract[] memory deployedContracts = chugsplash.deploy(
     configPath,
     network,
     key,
@@ -86,7 +86,7 @@ Registers a new project with the ChugSplash contracts and transfers it to the sp
 
 ### Example 
 ```
-string memory configPath = "./reforge/config.js";
+string memory configPath = "./chugsplash/config.js";
 string memory network = "localhost";
 string memory privateKey = vm.envString("PRIVATE_KEY");
 bool silent = false;
@@ -95,7 +95,7 @@ string memory outPath = vm.envString("OUT_PATH");
 string memory buildInfoPath = vm.envString("BUILD_INFO_PATH");
 string memory newOwner = "0x..."
 
-reforge.register(
+chugsplash.register(
     configPath,
     network,
     privateKey, 

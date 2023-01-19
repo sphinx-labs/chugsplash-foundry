@@ -55,7 +55,7 @@ const command = args[0]
       const address = await wallet.getAddress()
       owner = owner !== "self" ? owner : address
 
-      console.log("-- Reforge Register --")
+      console.log("-- ChugSplash Register --")
       await chugsplashRegisterAbstractTask(provider, wallet, config, owner, silent, 'foundry', process.stdout)
       break
     }
@@ -86,7 +86,7 @@ const command = args[0]
       await wallet.getAddress()
 
 
-      console.log("-- Reforge Propose --")
+      console.log("-- ChugSplash Propose --")
       await chugsplashProposeAbstractTask(
         provider,
         wallet,
@@ -128,7 +128,7 @@ const command = args[0]
       const wallet = new ethers.Wallet(privateKey, provider)
       await provider.getNetwork()
 
-      console.log("-- Reforge Fund --")
+      console.log("-- ChugSplash Fund --")
       await chugsplashFundAbstractTask(provider, wallet, configPath, amount, silent, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -158,7 +158,7 @@ const command = args[0]
 
       const remoteExecution = args[3] !== 'localhost'
 
-      console.log("-- Reforge Approve --")
+      console.log("-- ChugSplash Approve --")
       await chugsplashApproveAbstractTask(provider, wallet, configPath, !withdrawFunds, silent, skipMonitorStatus, artifactPaths, "foundry", buildInfoFolder, artifactFolder, canonicalConfigPath, deploymentFolder, remoteExecution, process.stdout)
       break
     }
@@ -178,7 +178,7 @@ const command = args[0]
       const noCompile = true
       const confirm = true
 
-      const logPath = `reforge/logs/${network ?? "anvil"}`
+      const logPath = `chugsplash/logs/${network ?? "anvil"}`
       if (!fs.existsSync(logPath)) {
         fs.mkdirSync(logPath, { recursive: true })
       }
@@ -203,17 +203,17 @@ const command = args[0]
       const remoteExecution = args[3] !== 'localhost'
       const spinner = ora({ isSilent: silent, stream: logWriter })
 
-      logWriter.write("-- Reforge Deploy --\n")
+      logWriter.write("-- ChugSplash Deploy --\n")
       let executor: ChugSplashExecutorType
       if (remoteExecution) {
-        spinner.start('Waiting for the executor to set up Reforge...')
+        spinner.start('Waiting for the executor to set up ChugSplash...')
         await monitorChugSplashSetup(provider, wallet)
       } else {
-        spinner.start('Booting up Reforge...')
+        spinner.start('Booting up ChugSplash...')
         executor = await initializeExecutor(provider, privateKey, "error")
       }
     
-      spinner.succeed('Reforge is ready to go.')
+      spinner.succeed('ChugSplash is ready to go.')
     
       const contractArtifacts = await chugsplashDeployAbstractTask(
         provider,
@@ -273,7 +273,7 @@ const command = args[0]
 
       const remoteExecution = args[3] !== 'localhost'
 
-      console.log("-- Reforge Monitor --")
+      console.log("-- ChugSplash Monitor --")
       await chugsplashMonitorAbstractTask(provider, wallet, configPath, !withdrawFunds, silent, newOwner, artifactPaths, buildInfoFolder, artifactFolder, canonicalConfigPath, deploymentFolder, "foundry", remoteExecution, process.stdout)
       break
     }
@@ -298,7 +298,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge Cancel --")
+      console.log("-- ChugSplash Cancel --")
       await chugsplashCancelAbstractTask(provider, wallet, configPath, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -324,7 +324,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge Withdraw --")
+      console.log("-- ChugSplash Withdraw --")
       await chugsplashWithdrawAbstractTask(provider, wallet, configPath, silent, artifactPaths, buildInfoFolder, artifactFolder, canonicalConfigPath, "foundry", process.stdout)
       break
     }
@@ -338,7 +338,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge List Projects --")
+      console.log("-- ChugSplash List Projects --")
       await chugsplashListProjectsAbstractTask(provider, wallet, "foundry", process.stdout)
       break
     }
@@ -363,7 +363,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge List Proposers --")
+      console.log("-- ChugSplash List Proposers --")
       await chugsplashListProposersAbstractTask(provider, wallet, configPath, artifactPaths, "foundry")
       break
     }
@@ -389,7 +389,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge Add Proposer --")
+      console.log("-- ChugSplash Add Proposer --")
       await chugsplashAddProposersAbstractTask(provider, wallet, configPath, [newProposer],artifactPaths, "foundry", process.stdout)
       break
     }
@@ -416,7 +416,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge Claim Proxy --")
+      console.log("-- ChugSplash Claim Proxy --")
       await chugsplashClaimProxyAbstractTask(provider, wallet, configPath, referenceName, silent, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -444,7 +444,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- Reforge Transfer Proxy --")
+      console.log("-- ChugSplash Transfer Proxy --")
       await chugsplashTransferOwnershipAbstractTask(provider, wallet, configPath, proxyAddress, silent, artifactPaths, "foundry", process.stdout)
       break
     }

@@ -93,8 +93,8 @@ export const getArtifactPaths = async (
 export const fetchPaths = (outPath: string, buildInfoPath: string) => {
     const artifactFolder = path.resolve(outPath)
     const buildInfoFolder = path.resolve(buildInfoPath)
-    const deploymentFolder = path.join('reforge', 'deployments')
-    const canonicalConfigPath = path.join('reforge', '.canonical-configs')
+    const deploymentFolder = path.join('chugsplash', 'deployments')
+    const canonicalConfigPath = path.join('chugsplash', '.canonical-configs')
 
     return { artifactFolder, buildInfoFolder, deploymentFolder, canonicalConfigPath }
 }

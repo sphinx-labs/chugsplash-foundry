@@ -1,5 +1,5 @@
 # Foundry Testing
-Reforge can be integrated with Foundry test scripts to run unit tests against contracts which have been deployed using Reforge. You can also use Foundry to fork a live network, and test our your upgrade using Reforge. 
+ChugSplash can be integrated with Foundry test scripts to run unit tests against contracts which have been deployed using ChugSplash. You can also use Foundry to fork a live network, and test our your upgrade using ChugSplash. 
 
 ## Create your test script
 
@@ -9,29 +9,29 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import "forge-std/Script.sol";
-import { Reforge } from "Reforge/contracts/Reforge.sol";
-import "../src/HelloReforge.sol";
+import { ChugSplash } from "chugsplash-foundry/contracts/ChugSplash.sol";
+import "../src/HelloChugSplash.sol";
 
 contract ContractTest is Test, Script {
-    Reforge public reforge;    
-    HelloReforge helloReforge;
+    ChugSplash public chugsplash;    
+    HelloChugSplash helloChugSplash;
     uint256 localFork;
 
     // Setup your tests
     function setUp() public {
-        // Start by setting up Reforge and configuring it to be peristed across Forks
-        reforge = new Reforge();
-        vm.makePersistent(address(reforge));
+        // Start by setting up ChugSplash and configuring it to be peristed across Forks
+        chugsplash = new ChugSplash();
+        vm.makePersistent(address(chugsplash));
 
         // Define the variables required to perform the deployment
-        string memory configPath = "./reforge/config.ts";
+        string memory configPath = "./chugsplash/config.ts";
         bool silent = false;
         string memory key = vm.envString("PRIVATE_KEY");
         string memory outPath = vm.envString("OUT_PATH");
         string memory buildInfoPath = vm.envString("BUILD_INFO_PATH");
 
-        // Perform the deployment using Reforge
-        Reforge.ReforgeContract[] memory deployedContracts = reforge.deploy(
+        // Perform the deployment using ChugSplash
+        ChugSplash.ChugSplashContract[] memory deployedContracts = chugsplash.deploy(
             configPath,
             "localhost",
             key,
@@ -45,36 +45,36 @@ contract ContractTest is Test, Script {
 
         // Fetch the address of the deployed contract by passing
         // deployedContracts: Artifacts used to access the deployed contract.
-        // HelloReforge: The name of the contract.
+        // HelloChugSplash: The name of the contract.
         // MyFirstContract: The reference name of the contract, this is the key for the contract in the deployment configuration file
-        address helloReforgeAddress = reforge.fetchContractAddress(deployedContracts, 'HelloReforge', 'MyFirstContract');
+        address helloChugSplashAddress = chugsplash.fetchContractAddress(deployedContracts, 'HelloChugSplash', 'MyFirstContract');
 
         // Define the contract using the retrieved address
-        helloReforge = HelloReforge(helloReforgeAddress);
+        helloChugSplash = HelloChugSplash(helloChugSplashAddress);
     }
 
     // Run your deployment tests
     // Here we just confirm that the deployment was performed correctly, but you can implement whatever tests you like. 
     function testNumber() public {
-        assertEq(helloReforge.number(), 1);
+        assertEq(helloChugSplash.number(), 1);
     }
 
     function testStored() public {
-        assertEq(helloReforge.stored(), true);
+        assertEq(helloChugSplash.stored(), true);
     }
 
     function testOtherStorage() public {
-        assertEq(helloReforge.otherStorage(), 0x1111111111111111111111111111111111111111);
+        assertEq(helloChugSplash.otherStorage(), 0x1111111111111111111111111111111111111111);
     }
 
     function testStorageName() public {
-        assertEq(helloReforge.storageName(), 'First');
+        assertEq(helloChugSplash.storageName(), 'First');
     }
 }
 ```
 
 ## Running Tests
-First start a standalone anvil process, this is required for performing Reforge deployments. 
+First start a standalone anvil process, this is required for performing ChugSplash deployments. 
 ```
 anvil
 ```

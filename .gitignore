@@ -14,9 +14,9 @@ out/
 node_modules
 
 # ChugSplash artifacts
-reforge/.canonical-configs/
-reforge/deployments/
-reforge/logs
+chugsplash/.canonical-configs/
+chugsplash/deployments/
+chugsplash/logs
 
 test-cli.txt
 notes.txt
