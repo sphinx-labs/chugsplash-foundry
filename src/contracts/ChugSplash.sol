@@ -15,7 +15,6 @@ contract ChugSplash is Script, Test {
     string network = vm.envString("NETWORK");
 
     // Optional env vars
-    bool silent = vm.envOr("SILENT", false);
     address newOwnerAddress = vm.envOr("NEW_OWNER", vm.addr(vm.envUint("PRIVATE_KEY")));
     string newOwner = vm.toString(newOwnerAddress);
     bool withdrawFunds = vm.envOr("WITHDRAW_FUNDS", true);
@@ -48,7 +47,8 @@ contract ChugSplash is Script, Test {
     }
 
     function register(
-        string memory configPath
+        string memory configPath,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -76,7 +76,8 @@ contract ChugSplash is Script, Test {
 
     function propose(
         string memory configPath,
-        bool remoteExecution
+        bool remoteExecution,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -107,7 +108,8 @@ contract ChugSplash is Script, Test {
 
     function fund(
         string memory configPath,
-        uint amount 
+        uint amount,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -136,7 +138,8 @@ contract ChugSplash is Script, Test {
 
     function approve(
         string memory configPath,
-        bool skipMonitorStatus
+        bool skipMonitorStatus,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -166,7 +169,14 @@ contract ChugSplash is Script, Test {
 
     function deploy(
         string memory configPath
-    ) external returns (ChugSplashContract[] memory) {
+    ) external {
+        deploy(configPath, false);
+    }
+
+    function deploy(
+        string memory configPath,
+        bool silent
+    ) public {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](15);
@@ -188,14 +198,22 @@ contract ChugSplash is Script, Test {
 
         bytes memory result = vm.ffi(cmds);
         ChugSplashContract[] memory deployedContracts = abi.decode(result, (ChugSplashContract[]));
-        
+
+        if (silent == false) {
+            emit log("Success!");
+            for (uint i = 0; i < deployedContracts.length; i++) {
+                ChugSplashContract memory deployed = deployedContracts[i];
+                emit log(string.concat(deployed.referenceName, ': ', vm.toString(deployed.contractAddress)));
+            }
+        }
+
         uint localFork = vm.createFork(rpcUrl);
         vm.selectFork(localFork);
-        return deployedContracts;
     }
 
     function monitor(
-        string memory configPath
+        string memory configPath,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -249,7 +267,8 @@ contract ChugSplash is Script, Test {
     }
 
     function withdraw(
-        string memory configPath
+        string memory configPath,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -350,7 +369,8 @@ contract ChugSplash is Script, Test {
 
     function claimProxy(
         string memory configPath,
-        string memory referenceName
+        string memory referenceName,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -379,7 +399,8 @@ contract ChugSplash is Script, Test {
 
     function transferProxy(
         string memory configPath, 
-        address proxyAddress
+        address proxyAddress,
+        bool silent
     ) external returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
@@ -430,7 +451,8 @@ contract ChugSplash is Script, Test {
             "Could not find contract: ",
             _referenceName,
             ". ",
-            "Did you forget to call `chugsplash.deploy` or misspell the contract's reference name?");
+            "Did you misspell the contract's reference name or forget to call `chugsplash.deploy`?"
+        );
         require(addr.code.length > 0, errorMsg);
 
         return addr;
