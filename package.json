@@ -1,0 +1,39 @@
+{
+  "name": "foundry-library",
+  "version": "1.0.0",
+  "author": "Ryan Pate",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist/*",
+    "src/contracts/*"
+  ],
+  "scripts": {
+    "start": "ts-node ./src/index.ts",
+    "build": "yarn build:ts",
+    "build:ts": "tsc -p ./tsconfig.json --outDir lib/Reforge/dist && tsc -p ./tsconfig.json --outDir dist",
+    "clean": "rimraf dist/ ./tsconfig.tsbuildinfo",
+    "test:coverage": "echo 'no tests'",
+    "lint": "yarn lint:fix && yarn lint:check",
+    "lint:fix": "yarn lint:ts:fix",
+    "lint:check": "yarn lint:ts:check",
+    "lint:ts:fix": "yarn lint:ts:check --fix",
+    "lint:ts:check": "eslint . --max-warnings=0",
+    "pre-commit": "lint-staged"
+  },
+  "dependencies": {
+    "@chugsplash/core": "^0.3.24",
+    "@chugsplash/executor": "^0.4.14",
+    "@eth-optimism/core-utils": "^0.12.0",
+    "ethers": "^5.7.2",
+    "ora": "^5.4.1",
+    "path": "^0.12.7",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/ora": "^3.2.0",
+    "typescript": "^4.9.4"
+  }
+}

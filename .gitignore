@@ -1,0 +1,22 @@
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Dotenv file
+.env
+.env.local
+.env.remote
+node_modules
+
+# ChugSplash artifacts
+reforge/.canonical-configs/
+reforge/deployments/
+reforge/logs
+
+test-cli.txt
+notes.txt

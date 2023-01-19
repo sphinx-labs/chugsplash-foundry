@@ -1,0 +1,21 @@
+[profile.default]
+src = 'src'
+verbosity = 2
+
+libs = ['lib']
+out = 'out'
+ffi = true
+build_info = true
+extra_output = ['storageLayout']
+force = true
+
+[rpc_endpoints]
+localhost = "http://127.0.0.1:8545"
+homestead = "${RPC_MAINNET}"
+goerli = "${RPC_GOERLI}"
+optimism = "${RPC_OPTIMISM}"
+optimism-goerli = "${RPC_OPTIMISM_GOERLI}"
+arbitrum = "${RPC_ARBITRUM}"
+arbitrum-goerli = "${RPC_ARBITRUM_GOERLI}"
+matic = "${RPC_MATIC}"
+maticmum = "${RPC_MATIC_MUMBAI}"
