@@ -3,7 +3,8 @@ src = 'src'
 verbosity = 2
 
 libs = ['lib']
-out = 'out'
+out = 'out/artifacts'
+build_info_path = 'out/artifacts/build-info'
 ffi = true
 build_info = true
 extra_output = ['storageLayout']

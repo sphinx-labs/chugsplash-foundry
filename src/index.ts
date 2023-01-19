@@ -176,7 +176,7 @@ const command = args[0]
       const skipStorageCheck = args[11] === 'true'
       
       const noCompile = true
-      const confirm = false
+      const confirm = true
 
       const logPath = `reforge/logs/${network ?? "anvil"}`
       if (!fs.existsSync(logPath)) {
