@@ -21,6 +21,9 @@ contract ChugSplash is Script, Test {
     bool withdrawFunds = vm.envOr("WITHDRAW_FUNDS", true);
     string ipfsUrl = vm.envOr("IPFS_URL", NONE);
     bool skipStorageCheck = vm.envOr("SKIP_STORAGE_CHECK", false);
+
+    string rpcUrl = vm.rpcUrl(network);
+    string filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
     
     struct ChugSplashContract {
         string referenceName;
@@ -32,7 +35,7 @@ contract ChugSplash is Script, Test {
         ChugSplashContract[] memory deployedContracts,
         bytes memory contractName,
         bytes memory referenceName
-    ) external returns (address) {
+    ) external pure returns (address) {
         for (uint i = 0; i < deployedContracts.length; i++) {
             bytes32 encodedContractName = keccak256(abi.encodePacked(deployedContracts[i].contractName));
             bytes32 encodedReferenceName = keccak256(abi.encodePacked(deployedContracts[i].referenceName));
@@ -63,9 +66,6 @@ contract ChugSplash is Script, Test {
     function register(
         string memory configPath
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
@@ -82,6 +82,10 @@ contract ChugSplash is Script, Test {
         cmds[10] = buildInfoPath;
         cmds[11] = newOwner;
 
+        for (uint i = 0; i < cmds.length; i++) {
+            console.log(cmds[i]);
+        }
+
         bytes memory result = vm.ffi(cmds);
         emit log(string(result));
         emit log(string("\n"));
@@ -94,9 +98,6 @@ contract ChugSplash is Script, Test {
         string memory configPath,
         bool remoteExecution
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](14);
@@ -128,9 +129,6 @@ contract ChugSplash is Script, Test {
         string memory configPath,
         uint amount 
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
@@ -160,9 +158,6 @@ contract ChugSplash is Script, Test {
         string memory configPath,
         bool skipMonitorStatus
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](13);
@@ -192,9 +187,6 @@ contract ChugSplash is Script, Test {
     function deploy(
         string memory configPath
     ) external returns (ChugSplashContract[] memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](15);
@@ -225,9 +217,6 @@ contract ChugSplash is Script, Test {
     function monitor(
         string memory configPath
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
@@ -256,9 +245,6 @@ contract ChugSplash is Script, Test {
     function cancel(
         string memory configPath
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](10);
@@ -285,9 +271,6 @@ contract ChugSplash is Script, Test {
     function withdraw(
         string memory configPath
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](11);
@@ -313,9 +296,6 @@ contract ChugSplash is Script, Test {
     }
 
     function listProjects() external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         string[] memory cmds = new string[](7);
         cmds[0] = "npx";
         cmds[1] = "ts-node";
@@ -337,9 +317,6 @@ contract ChugSplash is Script, Test {
     function listProposers(
         string memory configPath
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](10);
@@ -367,9 +344,6 @@ contract ChugSplash is Script, Test {
         string memory configPath,
         address newProposer
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](11);
@@ -398,9 +372,6 @@ contract ChugSplash is Script, Test {
         string memory configPath,
         string memory referenceName
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
@@ -430,9 +401,6 @@ contract ChugSplash is Script, Test {
         string memory configPath, 
         address proxyAddress
     ) external returns (bytes memory) {
-        string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
-
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
