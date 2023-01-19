@@ -15,7 +15,7 @@ node_modules
 
 # ChugSplash artifacts
 chugsplash/.canonical-configs/
-chugsplash/deployments/
+chugsplash/deployments
 chugsplash/logs
 
 test-cli.txt
