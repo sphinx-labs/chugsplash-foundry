@@ -1,0 +1,61 @@
+{
+  "options": {
+    "projectName": "Foundry Library Goerli Pate 3"
+  },
+  "contracts": {
+    "MyFirstContract": {
+      "contract": "src/HelloReforge.sol:HelloReforge",
+      "variables": {
+        "number": 1,
+        "stored": true,
+        "storageName": "First",
+        "otherStorage": "0x1111111111111111111111111111111111111111"
+      },
+      "proxy": "0x733228Bc1E9B0800C483CB6F6d30b20B2d1e595b"
+    }
+  },
+  "inputs": [
+    {
+      "solcVersion": "0.8.17",
+      "solcLongVersion": "0.8.17+commit.8df45f5f.Darwin.appleclang",
+      "input": {
+        "language": "Solidity",
+        "settings": {
+          "remappings": [
+            "ds-test/=lib/forge-std/lib/ds-test/src/",
+            "forge-std/=lib/forge-std/src/"
+          ],
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        },
+        "sources": {
+          "src/HelloReforge.sol": {
+            "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.15;\n\ncontract HelloReforge {\n    uint8 public number;\n    bool public stored;\n    address public otherStorage;\n    string public storageName;\n}\n"
+          }
+        }
+      }
+    }
+  ]
+}

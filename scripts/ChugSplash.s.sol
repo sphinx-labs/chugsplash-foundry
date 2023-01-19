@@ -3,24 +3,24 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
-import "../src/contracts/Reforge.sol";
-import "../src/HelloReforge.sol";
+import "../src/contracts/ChugSplash.sol";
+import "../src/HelloChugSplash.sol";
 
-contract ReforgeDeploy is Script {
-    Reforge public reforge;    
+contract ChugSplashDeploy is Script {
+    ChugSplash public chugsplash;    
 
     function setUp() public {
-        reforge = new Reforge();
+        chugsplash = new ChugSplash();
     }
 
     function run() public {
-        string memory configPath = "./reforge/config.ts";
+        string memory configPath = "./chugsplash/config.ts";
         bool silent = false;
         string memory key = vm.envString("PRIVATE_KEY");
         string memory outPath = vm.envString("OUT_PATH");
         string memory buildInfoPath = vm.envString("BUILD_INFO_PATH");
 
-        reforge.register(
+        chugsplash.register(
             configPath,
             "localhost",
             key, 
@@ -30,7 +30,7 @@ contract ReforgeDeploy is Script {
             "self"
         );
 
-        // reforge.deploy(
+        // chugsplash.deploy(
         //     configPath,
         //     rpcUrl,
         //     network,

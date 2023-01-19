@@ -4,16 +4,16 @@ pragma solidity ^0.8.17;
 import "forge-std/Script.sol"; 
 import "forge-std/Test.sol"; 
 
-contract Reforge is Script, Test {
+contract ChugSplash is Script, Test {
 
-    struct ReforgeContract {
+    struct ChugSplashContract {
         string referenceName;
         string contractName;
         address contractAddress;
     }
 
     function fetchContractAddress(
-        ReforgeContract[] memory deployedContracts,
+        ChugSplashContract[] memory deployedContracts,
         bytes memory contractName,
         bytes memory referenceName
     ) external returns (address) {
@@ -39,7 +39,7 @@ contract Reforge is Script, Test {
         string memory newOwner
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";
@@ -75,7 +75,7 @@ contract Reforge is Script, Test {
         bool skipStorageCheck
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](14);
         cmds[0] = "npx";
@@ -112,7 +112,7 @@ contract Reforge is Script, Test {
         uint amount 
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";
@@ -148,7 +148,7 @@ contract Reforge is Script, Test {
         bool skipMonitorStatus
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](13);
         cmds[0] = "npx";
@@ -185,9 +185,9 @@ contract Reforge is Script, Test {
         string memory newOwner,
         string memory ipfsUrl,
         bool skipStorageCheck
-    ) external returns (ReforgeContract[] memory) {
+    ) external returns (ChugSplashContract[] memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](15);
         cmds[0] = "npx";
@@ -207,7 +207,7 @@ contract Reforge is Script, Test {
         cmds[14] = skipStorageCheck == true ? "true" : "false";
 
         bytes memory result = vm.ffi(cmds);
-        ReforgeContract[] memory deployedContracts = abi.decode(result, (ReforgeContract[]));
+        ChugSplashContract[] memory deployedContracts = abi.decode(result, (ChugSplashContract[]));
         
         uint localFork = vm.createFork(rpcUrl);
         vm.selectFork(localFork);
@@ -224,7 +224,7 @@ contract Reforge is Script, Test {
         string memory newOwner
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";
@@ -257,7 +257,7 @@ contract Reforge is Script, Test {
         string memory buildInfoPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](10);
         cmds[0] = "npx";
@@ -289,7 +289,7 @@ contract Reforge is Script, Test {
         string memory buildInfoPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](11);
         cmds[0] = "npx";
@@ -318,7 +318,7 @@ contract Reforge is Script, Test {
         string memory privateKey
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](7);
         cmds[0] = "npx";
@@ -346,7 +346,7 @@ contract Reforge is Script, Test {
         string memory buildInfoPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](10);
         cmds[0] = "npx";
@@ -378,7 +378,7 @@ contract Reforge is Script, Test {
         string memory buildInfoPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](11);
         cmds[0] = "npx";
@@ -412,7 +412,7 @@ contract Reforge is Script, Test {
         string memory referenceName
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";
@@ -447,7 +447,7 @@ contract Reforge is Script, Test {
         address proxyAddress
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
-        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/Reforge/src/index.ts'));
+        string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";

@@ -6,7 +6,7 @@ const config: UserChugSplashConfig = {
   },
   contracts: {
     MyFirstContract: {
-      contract: 'HelloReforge',
+      contract: 'HelloChugSplash',
       variables: {
         number: 1,
         stored: true,
