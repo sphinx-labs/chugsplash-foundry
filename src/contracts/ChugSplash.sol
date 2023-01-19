@@ -3,9 +3,11 @@ pragma solidity ^0.8.17;
 // SPDX-License-Identifier: MIT
 import "forge-std/Script.sol"; 
 import "forge-std/Test.sol"; 
+import "github.com/Arachnid/solidity-stringutils/strings.sol";
 
 contract ChugSplash is Script, Test {
-
+    using strings for *;
+    
     struct ChugSplashContract {
         string referenceName;
         string contractName;
@@ -34,12 +36,24 @@ contract ChugSplash is Script, Test {
         string memory network, 
         string memory privateKey, 
         bool silent, 
-        string memory outPath,
-        string memory buildInfoPath,
         string memory newOwner
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
+
+        string outFilePath = './out';
+        string buildInfoOut = './out/build-info';
+        string memory tomlPath = "foundry.toml";
+        string memory line;
+        while (line != "") {
+            line = vm.readLine(tomlPath);
+            if (line.starts("out")) {
+                outFilePath = line.beyond("out");
+            }
+            if (buildInfoOut.starts("build_info_path")) {
+                buildInfoOut = line.beyond("build_info_path");
+            }
+        }
 
         string[] memory cmds = new string[](12);
         cmds[0] = "npx";
