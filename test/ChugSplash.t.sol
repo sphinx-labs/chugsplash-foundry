@@ -16,10 +16,9 @@ contract ChugSplashTest is Test, Script {
         vm.makePersistent(address(chugsplash));
 
         string memory configPath = "./chugsplash/config.ts";
-        ChugSplash.ChugSplashContract[] memory deployedContracts = chugsplash.deploy(configPath);
 
-        address helloChugSplashAddress = chugsplash.fetchContractAddress(deployedContracts, 'HelloChugSplash', 'MyFirstContract');
-        helloChugSplash = HelloChugSplash(helloChugSplashAddress);
+        chugsplash.deploy(configPath);
+        helloChugSplash = HelloChugSplash(chugsplash.getAddress(configPath, "MyFirstContract"));
     }
 
     function testNumber() public {
