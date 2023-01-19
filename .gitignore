@@ -18,5 +18,7 @@ chugsplash/.canonical-configs/
 chugsplash/deployments
 chugsplash/logs
 
+dist/
+
 test-cli.txt
 notes.txt

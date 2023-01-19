@@ -7,6 +7,20 @@ import "lib/solidity-stringutils/strings.sol";
 
 contract ChugSplash is Script, Test {
     using strings for *;
+
+    string constant NONE = "none";
+
+    // Required env vars
+    string privateKey = vm.envString("PRIVATE_KEY");
+    string network = vm.envString("NETWORK");
+
+    // Optional env vars
+    bool silent = vm.envOr("SILENT", false);
+    address newOwnerAddress = vm.envOr("NEW_OWNER", vm.addr(vm.envUint("PRIVATE_KEY")));
+    string newOwner = vm.toString(newOwnerAddress);
+    bool withdrawFunds = vm.envOr("WITHDRAW_FUNDS", true);
+    string ipfsUrl = vm.envOr("IPFS_URL", NONE);
+    bool skipStorageCheck = vm.envOr("SKIP_STORAGE_CHECK", false);
     
     struct ChugSplashContract {
         string referenceName;
@@ -47,11 +61,7 @@ contract ChugSplash is Script, Test {
     }
 
     function register(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
-        string memory newOwner
+        string memory configPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -81,13 +91,8 @@ contract ChugSplash is Script, Test {
     }
 
     function propose(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
-        string memory ipfsUrl,
-        bool remoteExecution,
-        bool skipStorageCheck
+        string memory configPath,
+        bool remoteExecution
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -120,10 +125,7 @@ contract ChugSplash is Script, Test {
     }
 
     function fund(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
+        string memory configPath,
         uint amount 
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
@@ -155,11 +157,7 @@ contract ChugSplash is Script, Test {
     }
 
     function approve(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
-        bool withdrawFunds,
+        string memory configPath,
         bool skipMonitorStatus
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
@@ -192,14 +190,7 @@ contract ChugSplash is Script, Test {
     }
 
     function deploy(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
-        bool withdrawFunds,
-        string memory newOwner,
-        string memory ipfsUrl,
-        bool skipStorageCheck
+        string memory configPath
     ) external returns (ChugSplashContract[] memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -232,11 +223,7 @@ contract ChugSplash is Script, Test {
     }
 
     function monitor(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
-        string memory newOwner
+        string memory configPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -267,9 +254,7 @@ contract ChugSplash is Script, Test {
     }
 
     function cancel(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey
+        string memory configPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -298,10 +283,7 @@ contract ChugSplash is Script, Test {
     }
 
     function withdraw(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent
+        string memory configPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -330,10 +312,7 @@ contract ChugSplash is Script, Test {
         return result;
     }
 
-    function listProjects(
-        string memory network, 
-        string memory privateKey
-    ) external returns (bytes memory) {
+    function listProjects() external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
 
@@ -356,9 +335,7 @@ contract ChugSplash is Script, Test {
     }
 
     function listProposers(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey
+        string memory configPath
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
         string memory filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
@@ -387,9 +364,7 @@ contract ChugSplash is Script, Test {
     }
 
     function addProposer(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
+        string memory configPath,
         address newProposer
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
@@ -420,10 +395,7 @@ contract ChugSplash is Script, Test {
     }
 
     function claimProxy(
-        string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
+        string memory configPath,
         string memory referenceName
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
@@ -456,9 +428,6 @@ contract ChugSplash is Script, Test {
 
     function transferProxy(
         string memory configPath, 
-        string memory network, 
-        string memory privateKey, 
-        bool silent, 
         address proxyAddress
     ) external returns (bytes memory) {
         string memory rpcUrl = vm.rpcUrl(network);
