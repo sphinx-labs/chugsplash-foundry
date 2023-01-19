@@ -17,16 +17,12 @@ contract ChugSplashDeploy is Script {
         string memory configPath = "./chugsplash/config.ts";
         bool silent = false;
         string memory key = vm.envString("PRIVATE_KEY");
-        string memory outPath = vm.envString("OUT_PATH");
-        string memory buildInfoPath = vm.envString("BUILD_INFO_PATH");
-
+        
         chugsplash.register(
             configPath,
             "localhost",
             key, 
             silent,
-            outPath,
-            buildInfoPath,
             "self"
         );
 
