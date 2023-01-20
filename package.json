@@ -24,6 +24,7 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
+    "@chugsplash/contracts": "^0.3.17",
     "@chugsplash/core": "^0.3.24",
     "@chugsplash/executor": "^0.4.14",
     "@eth-optimism/core-utils": "^0.12.0",
