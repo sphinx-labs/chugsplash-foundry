@@ -448,6 +448,25 @@ const command = args[0]
       await chugsplashTransferOwnershipAbstractTask(provider, wallet, configPath, proxyAddress, silent, artifactPaths, "foundry", process.stdout)
       break
     }
+    case 'getAddress': {
+      const rpcUrl = args[1]
+      const configPath = args[2]
+      const referenceName = args[3]
+      const outPath = args[4]
+      const buildInfoPath = args[5]
+      
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+      const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
+      const userConfig = readUserChugSplashConfig(configPath)
+      const artifactPaths = await getArtifactPaths(
+        userConfig.contracts,
+        artifactFolder,
+        buildInfoFolder
+      )
+
+      const parsedConfig = await readParsedChugSplashConfig(provider, configPath, artifactPaths, "foundry")
+      process.stdout.write(parsedConfig.contracts[referenceName].proxy)
+    }
   }
 })().catch((err: Error) => {
   console.error(err)

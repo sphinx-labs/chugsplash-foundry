@@ -31,22 +31,6 @@ contract ChugSplash is Script, Test {
         address contractAddress;
     }
 
-    function fetchContractAddress(
-        ChugSplashContract[] memory deployedContracts,
-        bytes memory contractName,
-        bytes memory referenceName
-    ) external pure returns (address) {
-        for (uint i = 0; i < deployedContracts.length; i++) {
-            bytes32 encodedContractName = keccak256(abi.encodePacked(deployedContracts[i].contractName));
-            bytes32 encodedReferenceName = keccak256(abi.encodePacked(deployedContracts[i].referenceName));
-            if (encodedContractName == keccak256(contractName) && encodedReferenceName == keccak256(referenceName)) {
-                return deployedContracts[i].contractAddress;
-            }
-        }
-
-        revert("contract address not found, are you sure you specified the correct contract and reference name");
-    }
-
     function fetchPaths() private view returns (string memory outPath, string memory buildInfoPath) {
         outPath = './out';
         buildInfoPath = './out/build-info';
@@ -81,10 +65,6 @@ contract ChugSplash is Script, Test {
         cmds[9] = outPath;
         cmds[10] = buildInfoPath;
         cmds[11] = newOwner;
-
-        for (uint i = 0; i < cmds.length; i++) {
-            console.log(cmds[i]);
-        }
 
         bytes memory result = vm.ffi(cmds);
         emit log(string(result));
@@ -424,5 +404,35 @@ contract ChugSplash is Script, Test {
         uint localFork = vm.createFork(rpcUrl);
         vm.selectFork(localFork);
         return result;
+    }
+
+    function getAddress(string memory _configPath, string memory _referenceName) public returns (address) {
+        (string memory outPath, string memory buildInfoPath) = fetchPaths();
+
+        string[] memory cmds = new string[](11);
+        cmds[0] = "npx";
+        cmds[1] = "ts-node";
+        cmds[2] = filePath;
+        cmds[3] = "getAddress";
+        cmds[4] = rpcUrl;
+        cmds[5] = _configPath;
+        cmds[6] = _referenceName;
+        cmds[7] = outPath;
+        cmds[8] = buildInfoPath;
+
+        bytes memory addrBytes = vm.ffi(cmds);
+        address addr;
+        assembly {
+            addr := mload(add(addrBytes, 20))
+        } 
+
+        string memory errorMsg = string.concat(
+            "Could not find contract: ",
+            _referenceName,
+            ". ",
+            "Did you forget to call `chugsplash.deploy` or misspell the contract's reference name?");
+        require(addr.code.length > 0, errorMsg);
+
+        return addr;
     }
 }
