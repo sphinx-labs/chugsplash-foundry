@@ -18,5 +18,9 @@ chugsplash/.canonical-configs/
 chugsplash/deployments
 chugsplash/logs
 
+# Typescript
+dist/
+tsconfig.tsbuildinfo
+
 test-cli.txt
 notes.txt
