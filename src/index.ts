@@ -452,8 +452,8 @@ const command = args[0]
       const rpcUrl = args[1]
       const configPath = args[2]
       const referenceName = args[3]
-      const outPath = args[4]
-      const buildInfoPath = args[5]
+      const outPath = cleanPath(args[4])
+      const buildInfoPath = cleanPath(args[5])
       
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
       const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
