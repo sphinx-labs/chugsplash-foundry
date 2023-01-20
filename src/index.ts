@@ -22,7 +22,7 @@ import {
 import { BigNumber, ethers } from 'ethers'
 import ora from 'ora'
 
-import { fetchPaths, getArtifactPaths, initializeExecutor } from './utils'
+import { cleanPath, fetchPaths, getArtifactPaths, initializeExecutor } from './utils'
 
 const args = process.argv.slice(2)
 const command = args[0]
@@ -35,8 +35,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       let owner = args[8];
 
       const provider = new ethers.providers.JsonRpcProvider(rpcUrl, network)
@@ -65,8 +65,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const ipfsUrl = args[8] !== "none" ? args[8] : undefined
       const remoteExecution = args[9] === 'true'
       const skipStorageCheck = args[10] === 'true'
@@ -112,8 +112,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const amount = BigNumber.from(args[8])
 
       const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
@@ -138,8 +138,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const withdrawFunds = args[8] === 'true'
       const skipMonitorStatus = args[9] === 'true'
 
@@ -168,8 +168,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const withdrawFunds = args[8] === 'true'
       let newOwner = args[9]
       const ipfsUrl = args[10] !== "none" ? args[10] : undefined
@@ -252,8 +252,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const withdrawFunds = args[8] === 'true'
       let newOwner = args[9]
 
@@ -282,8 +282,8 @@ const command = args[0]
       const rpcUrl = args[2]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
-      const outPath = args[5]
-      const buildInfoPath = args[6]
+      const outPath = cleanPath(args[5])
+      const buildInfoPath = cleanPath(args[6])
 
       const { artifactFolder, buildInfoFolder, deploymentFolder, canonicalConfigPath } = fetchPaths(outPath, buildInfoPath)
       const userConfig = readUserChugSplashConfig(configPath)
@@ -308,8 +308,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
 
       const { artifactFolder, buildInfoFolder, canonicalConfigPath } = fetchPaths(outPath, buildInfoPath)
       const userConfig = readUserChugSplashConfig(configPath)
@@ -347,8 +347,8 @@ const command = args[0]
       const rpcUrl = args[2]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
-      const outPath = args[5]
-      const buildInfoPath = args[6]
+      const outPath = cleanPath(args[5])
+      const buildInfoPath = cleanPath(args[6])
 
       const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
       const userConfig = readUserChugSplashConfig(configPath)
@@ -372,8 +372,8 @@ const command = args[0]
       const rpcUrl = args[2]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
-      const outPath = args[5]
-      const buildInfoPath = args[6]
+      const outPath = cleanPath(args[5])
+      const buildInfoPath = cleanPath(args[6])
       const newProposer = args[7]
 
       const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
@@ -399,8 +399,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const referenceName = args[8]
 
       const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
@@ -426,8 +426,8 @@ const command = args[0]
       const network = args[3] !== "localhost" ? args[3] : undefined
       const privateKey = args[4]
       const silent = args[5] === 'true'
-      const outPath = args[6]
-      const buildInfoPath = args[7]
+      const outPath = cleanPath(args[6])
+      const buildInfoPath = cleanPath(args[7])
       const proxyAddress = args[8]
 
 

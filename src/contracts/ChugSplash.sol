@@ -34,14 +34,19 @@ contract ChugSplash is Script, Test {
         outPath = './out';
         buildInfoPath = './out/build-info';
         string memory tomlPath = "foundry.toml";
-        strings.slice memory line;
-        while (!line.equals("".toSlice())) {
-            line = vm.readLine(tomlPath).toSlice();
+
+
+        strings.slice memory fileSlice = vm.readFile(tomlPath).toSlice();
+        strings.slice memory delim = "\n".toSlice();
+        uint parts = fileSlice.count(delim);
+        
+        for (uint i = 0; i < parts + 1; i++) {
+            strings.slice memory line = fileSlice.split(delim);
             if (line.startsWith("out".toSlice())) {
-                outPath = line.beyond("out".toSlice()).toString();
+                outPath = line.rsplit("=".toSlice()).toString();
             }
             if (line.startsWith("build_info_path".toSlice())) {
-                buildInfoPath = line.beyond("build_info_path".toSlice()).toString();
+                buildInfoPath = line.rsplit("=".toSlice()).toString();
             }
         }
     }
