@@ -90,6 +90,12 @@ export const getArtifactPaths = async (
     return artifactPaths
 }
 
+export const cleanPath = (path: string) => {
+    let cleanQuotes = path.replace(/'/g, "")
+    cleanQuotes = cleanQuotes.replace(/"/g, "")
+    return cleanQuotes.trim();
+}
+
 export const fetchPaths = (outPath: string, buildInfoPath: string) => {
     const artifactFolder = path.resolve(outPath)
     const buildInfoFolder = path.resolve(buildInfoPath)
