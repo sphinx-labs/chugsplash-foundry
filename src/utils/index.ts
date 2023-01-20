@@ -29,30 +29,28 @@ export const getBuildInfo = (
     buildInfoFolder: string,
     sourceName: string
 ): BuildInfo => {
-    const completeFilePath = path.join(buildInfoFolder)
+  let latestTimeCreated = 0
+  let latestBuildInfo: BuildInfo | undefined
+  for (const fileName of fs.readdirSync(buildInfoFolder)) {
+    if (fileName.endsWith('json')) {
+      const buildInfo = JSON.parse(
+        fs.readFileSync(path.join(buildInfoFolder, fileName), 'utf8')
+      )
 
-    // Get the inputs from the build info folder.
-    const inputs = fs
-        .readdirSync(completeFilePath)
-        .filter((file) => {
-            return file.endsWith('.json')
-        })
-        .map((file) => {
-            return JSON.parse(
-                fs.readFileSync(path.join(buildInfoFolder, file), 'utf8')
-            )
-        })
-    
-    // Find the correct build info file
-    for (const input of inputs) {
-        if (input?.output?.sources[sourceName] !== undefined) {
-            return input
+      if (buildInfo?.output?.sources[sourceName] !== undefined) {
+        const timeCreated = fs.statSync(path.join(buildInfoFolder, fileName)).birthtime.getTime()
+        if (timeCreated > latestTimeCreated) {
+          latestBuildInfo = buildInfo
         }
+      }
     }
-    
-    throw new Error(
-        `Failed to find build info for ${sourceName}. Are you sure your contracts were compiled and ${buildInfoFolder} is the correct build info directory?`
-    )
+  }
+
+  if (latestBuildInfo === undefined) {
+    throw new Error(`Could not find build info file. Try re-compiling then running the command again.`)
+  }
+
+  return latestBuildInfo
 }
 
 export const getContractArtifact = (

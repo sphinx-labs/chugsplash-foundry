@@ -22,5 +22,7 @@ chugsplash/logs
 dist/
 tsconfig.tsbuildinfo
 
+.vscode
+
 test-cli.txt
 notes.txt

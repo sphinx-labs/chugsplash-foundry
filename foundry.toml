@@ -9,7 +9,6 @@ ffi = true
 build_info = true
 extra_output = ['storageLayout']
 fs_permissions = [{ access = "read", path = "./"}]
-force = true
 
 [rpc_endpoints]
 localhost = "http://127.0.0.1:8545"
