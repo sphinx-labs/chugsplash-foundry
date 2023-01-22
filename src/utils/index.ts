@@ -51,7 +51,10 @@ export const getBuildInfo = (
     }
     
     throw new Error(
-        `Failed to find build info for ${sourceName}. Are you sure your contracts were compiled and ${buildInfoFolder} is the correct build info directory?`
+        `Failed to find build info for ${sourceName}. Please check that you:
+1. Imported this file in your script
+2. Set 'force=true' in your foundry.toml
+3. Check that ${buildInfoFolder} is the correct build info directory.`
     )
 }
 
@@ -62,6 +65,11 @@ export const getContractArtifact = (
     const folderName = `${name}.sol`
     const fileName = `${name}.json`
     const completeFilePath = path.join(artifactFilder, folderName, fileName)
+
+    if (!fs.existsSync(completeFilePath)) {
+      throw new Error(`Could not find artifact for: ${name}. Did you forget to import it in your script file?`)
+    }
+
     const artifact = JSON.parse(fs.readFileSync(completeFilePath, 'utf8'))
 
     return parseFoundryArtifact(artifact)
