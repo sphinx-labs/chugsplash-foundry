@@ -52,7 +52,6 @@ contract ChugSplashTest is Test {
 
     function setUp() public {
         chugsplash = new ChugSplash();
-        vm.makePersistent(address(chugsplash));
 
         // Setup deployment test
         chugsplash.deploy(deployConfig, true);
