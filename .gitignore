@@ -13,6 +13,9 @@ out/
 .env.remote
 node_modules
 
+# Dependencies
+lib/*
+
 # ChugSplash artifacts
 chugsplash/.canonical-configs/
 chugsplash/deployments

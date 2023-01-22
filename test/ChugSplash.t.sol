@@ -1,25 +1,139 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 import "../src/contracts/ChugSplash.sol";
 import "../src/Storage.sol";
 import { SimpleStorage } from "../src/SimpleStorage.sol";
+import { ChugSplashRegistry, ChugSplashManager, Proxy } from "chugsplash/packages/contracts/contracts/ChugSplashRegistry.sol";
+
+/* ChugSplash Foundry Library Tests
+ *  
+ * These integration tests are intended to verify that the ChugSplash Foundry Library is properly interfacing with
+ * the core ChugSplash library and contracts. We also include sanity check tests here that verify the variable encoding 
+ * and deployment process is working correctly. 
+ *
+ * However, these tests are not designed to fully test the ChugSplash contracts. You can find the main ChugSplash contract tests here: 
+ * https://github.com/chugsplash/chugsplash/tree/develop/packages/contracts/test
+ */
 
 contract ChugSplashTest is Test {
+    Proxy claimedProxy;
+    Proxy transferredProxy;
     Storage myStorage;
     SimpleStorage mySimpleStorage;
+    SimpleStorage mySimpleStorage2;
+    ChugSplashRegistry registry;
+    ChugSplash chugsplash;
+
+    string deployConfig = "./chugsplash/deploy.t.ts";
+
+    string withdrawProjectName = "Withdraw test";
+    string withdrawConfig = "./chugsplash/withdraw.t.ts";
+
+    string registerProjectName = 'Register, propose, fund, approve test';
+    string registerConfig = "./chugsplash/registerProposeFundApprove.t.ts";
+
+    string cancelProjectName = "Cancel test";
+    string cancelConfig = "./chugsplash/cancel.t.ts";
+
+    // This is just an anvil test key
+    string newProposerPrivateKey = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+    address newProposer = 0x70997970C51812dc3A010C7d01b50e0d17dc79C8;
+    string addProposerProjectName = "Add proposer test";
+    string addProposerConfig = "./chugsplash/addProposer.t.ts";
+
+    string claimConfig = "./chugsplash/claim.t.ts";
+
+    string transferProjectName = "Transfer test";
+    string transferConfig = "./chugsplash/transfer.t.ts";
+
     struct SimpleStruct { bytes32 a; uint128 b; uint128 c; }
 
     function setUp() public {
-        ChugSplash chugsplash = new ChugSplash();
+        chugsplash = new ChugSplash();
         vm.makePersistent(address(chugsplash));
 
-        string memory configPath = "./chugsplash/config.ts";
+        // Setup deployment test
+        chugsplash.deploy(deployConfig, true);
 
-        chugsplash.deploy(configPath, true);
-        myStorage = Storage(chugsplash.getAddress(configPath, "MyStorage"));
-        mySimpleStorage = SimpleStorage(chugsplash.getAddress(configPath, "MySimpleStorage"));
+        // Deploy claim proxy test
+        chugsplash.deploy(claimConfig, true);
+        chugsplash.claimProxy(claimConfig, "MySimpleStorage", true);
+
+        // Start transfer proxy test
+        chugsplash.deploy(transferConfig, true);
+        chugsplash.claimProxy(transferConfig, "MySimpleStorage", true);
+
+        // Setup register, propose, fund, approve process test
+        chugsplash.register(registerConfig, true);
+        chugsplash.propose(registerConfig, false, true);
+        chugsplash.fund(registerConfig, 1 ether, true);
+        chugsplash.approve(registerConfig, true, true);
+
+        // Setup withdraw test
+        chugsplash.register(withdrawConfig, true);
+        chugsplash.fund(withdrawConfig, 1 ether, true);
+        chugsplash.withdraw(withdrawConfig, true);
+
+        // Setup cancel test
+        chugsplash.register(cancelConfig, true);
+        chugsplash.propose(cancelConfig, false, true);
+        chugsplash.fund(cancelConfig, 1 ether, true);
+        chugsplash.approve(cancelConfig, true, true);
+        chugsplash.cancel(cancelConfig, true);
+
+        // Setup add proposer test
+        chugsplash.register(addProposerConfig, true);
+        chugsplash.addProposer(addProposerConfig, newProposer, true);
+        vm.setEnv("PRIVATE_KEY", newProposerPrivateKey);
+        chugsplash.propose(addProposerConfig, false, true);
+
+        // Refresh EVM state to reflect chain state after ChugSplash transactions
+        chugsplash.refresh();
+
+        chugsplash.transferProxy(transferConfig, chugsplash.getAddress(transferConfig, "MySimpleStorage"), true);
+        claimedProxy = Proxy(payable(chugsplash.getAddress(claimConfig, "MySimpleStorage")));
+        transferredProxy = Proxy(payable(chugsplash.getAddress(transferConfig, "MySimpleStorage")));
+        myStorage = Storage(chugsplash.getAddress(deployConfig, "MyStorage"));
+        mySimpleStorage = SimpleStorage(chugsplash.getAddress(deployConfig, "MySimpleStorage"));
+
+        registry = ChugSplashRegistry(chugsplash.getRegistryAddress());
+    }
+
+    function testDidClaimProxy() public {
+        assertEq(chugsplash.getEIP1967ProxyAdminAddress(address(claimedProxy)), 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266);
+    }
+
+    function testDidTransferProxy() public {
+        ChugSplashManager manager = registry.projects(transferProjectName);
+        assertEq(chugsplash.getEIP1967ProxyAdminAddress(address(transferredProxy)), address(manager));
+    }
+
+    function testDidRegister() public {
+        assertTrue(address(registry.projects('Doesnt exist')) == address(0), "Unregistered project detected");
+        assertFalse(address(registry.projects(registerProjectName)) == address(0), "Registered project was not detected");
+    }
+
+    function testDidProposeFundApprove() public {
+        ChugSplashManager manager = registry.projects(registerProjectName);
+        assertTrue(address(manager).balance == 1 ether, "Manager was not funded");
+        assertTrue(manager.activeBundleId() != 0, "No active bundle id detected");
+    }
+
+    function testDidWithdraw() public {
+        ChugSplashManager manager = registry.projects(withdrawProjectName);
+        assertTrue(address(manager).balance == 0 ether, "Manager balance not properly withdrawn");
+    }
+
+    function testDidCancel() public {
+        ChugSplashManager manager = registry.projects(cancelProjectName);
+        assertTrue(manager.activeBundleId() == 0, "Bundle still active");
+    }
+
+    function testDidAddProposer() public {
+        ChugSplashManager manager = registry.projects(addProposerProjectName);
+        assertTrue(manager.proposers(newProposer));
     }
 
     function testSetContractReference() public {

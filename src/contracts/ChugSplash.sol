@@ -1,4 +1,4 @@
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.15;
 
 // SPDX-License-Identifier: MIT
 import "forge-std/Script.sol"; 
@@ -72,10 +72,12 @@ contract ChugSplash is Script, Test {
         cmds[11] = newOwner;
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+        
         return result;
     }
 
@@ -103,11 +105,12 @@ contract ChugSplash is Script, Test {
         cmds[13] = skipStorageCheck == true ? "true" : "false";
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
@@ -133,11 +136,12 @@ contract ChugSplash is Script, Test {
         cmds[11] = vm.toString(amount);
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
@@ -164,11 +168,12 @@ contract ChugSplash is Script, Test {
         cmds[12] = skipMonitorStatus == true ? "true" : "false";
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
@@ -212,8 +217,6 @@ contract ChugSplash is Script, Test {
             }
         }
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
     }
 
     function monitor(
@@ -237,17 +240,26 @@ contract ChugSplash is Script, Test {
         cmds[11] = newOwner;
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
+
     function cancel(
         string memory configPath
-    ) external returns (bytes memory) {
+    ) external {
+        cancel(configPath, false);
+    }
+
+    function cancel(
+        string memory configPath,
+        bool silent
+    ) public returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](10);
@@ -263,11 +275,11 @@ contract ChugSplash is Script, Test {
         cmds[9] = buildInfoPath;
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));
+        }
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
         return result;
     }
 
@@ -291,11 +303,12 @@ contract ChugSplash is Script, Test {
         cmds[10] = buildInfoPath;
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
@@ -313,8 +326,6 @@ contract ChugSplash is Script, Test {
         emit log(string(result));
         emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
         return result;
     }
 
@@ -339,15 +350,21 @@ contract ChugSplash is Script, Test {
         emit log(string(result));
         emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
         return result;
     }
 
     function addProposer(
         string memory configPath,
         address newProposer
-    ) external returns (bytes memory) {
+    ) external {
+        addProposer(configPath, newProposer, false);
+    }
+
+    function addProposer(
+        string memory configPath,
+        address newProposer,
+        bool silent
+    ) public returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](11);
@@ -364,11 +381,11 @@ contract ChugSplash is Script, Test {
         cmds[10] = vm.toString(newProposer);
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));
+        }
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
         return result;
     }
 
@@ -394,11 +411,12 @@ contract ChugSplash is Script, Test {
         cmds[11] = referenceName;
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
@@ -424,18 +442,19 @@ contract ChugSplash is Script, Test {
         cmds[11] = vm.toString(proxyAddress);
 
         bytes memory result = vm.ffi(cmds);
-        emit log(string(result));
-        emit log(string("\n"));
 
-        uint localFork = vm.createFork(rpcUrl);
-        vm.selectFork(localFork);
+        if (!silent) {
+            emit log(string(result));
+            emit log(string("\n"));            
+        }
+
         return result;
     }
 
     function getAddress(string memory _configPath, string memory _referenceName) public returns (address) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
-        string[] memory cmds = new string[](11);
+        string[] memory cmds = new string[](9);
         cmds[0] = "npx";
         cmds[1] = "ts-node";
         cmds[2] = filePath;
@@ -461,5 +480,50 @@ contract ChugSplash is Script, Test {
         require(addr.code.length > 0, errorMsg);
 
         return addr;
+    }
+
+    function getRegistryAddress() public returns (address) {
+        string[] memory cmds = new string[](5);
+        cmds[0] = "npx";
+        cmds[1] = "ts-node";
+        cmds[2] = filePath;
+        cmds[3] = "getRegistryAddress";
+        cmds[4] = rpcUrl;
+
+        bytes memory addrBytes = vm.ffi(cmds);
+        address addr;
+        assembly {
+            addr := mload(add(addrBytes, 20))
+        } 
+        
+        require(addr.code.length > 0, "Couldn't find registry address");
+
+        return addr;
+    }
+
+    function getEIP1967ProxyAdminAddress(address _proxyAddress) public returns (address) {
+        string[] memory cmds = new string[](6);
+        cmds[0] = "npx";
+        cmds[1] = "ts-node";
+        cmds[2] = filePath;
+        cmds[3] = "getEIP1967ProxyAdminAddress";
+        cmds[4] = rpcUrl;
+        cmds[5] = vm.toString(_proxyAddress);
+
+        bytes memory addrBytes = vm.ffi(cmds);
+        address addr;
+        assembly {
+            addr := mload(add(addrBytes, 20))
+        } 
+        
+        require(addr != address(0), "Couldn't find proxy admin address");
+
+        return addr;
+    }
+
+    function refresh() public returns (uint) {
+        uint forkId = vm.createFork(rpcUrl);
+        vm.selectFork(forkId);
+        return forkId;
     }
 }

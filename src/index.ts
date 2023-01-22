@@ -18,11 +18,15 @@ import {
   chugsplashClaimProxyAbstractTask,
   chugsplashTransferOwnershipAbstractTask,
   readUserChugSplashConfig,
+  chugsplashCommitAbstractSubtask,
+  parseChugSplashConfig,
+  getEIP1967ProxyAdminAddress
 } from '@chugsplash/core'
 import { BigNumber, ethers } from 'ethers'
 import ora from 'ora'
 
 import { cleanPath, fetchPaths, getArtifactPaths, initializeExecutor } from './utils'
+import { CHUGSPLASH_REGISTRY_PROXY_ADDRESS } from '@chugsplash/contracts'
 
 const args = process.argv.slice(2)
 const command = args[0]
@@ -55,7 +59,7 @@ const command = args[0]
       const address = await wallet.getAddress()
       owner = owner !== "self" ? owner : address
 
-      console.log("-- ChugSplash Register --")
+      if (!silent) console.log("-- ChugSplash Register --")
       await chugsplashRegisterAbstractTask(provider, wallet, config, owner, silent, 'foundry', process.stdout)
       break
     }
@@ -86,7 +90,7 @@ const command = args[0]
       await wallet.getAddress()
 
 
-      console.log("-- ChugSplash Propose --")
+      if (!silent) console.log("-- ChugSplash Propose --")
       await chugsplashProposeAbstractTask(
         provider,
         wallet,
@@ -128,7 +132,7 @@ const command = args[0]
       const wallet = new ethers.Wallet(privateKey, provider)
       await provider.getNetwork()
 
-      console.log("-- ChugSplash Fund --")
+      if (!silent) console.log("-- ChugSplash Fund --")
       await chugsplashFundAbstractTask(provider, wallet, configPath, amount, silent, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -158,7 +162,7 @@ const command = args[0]
 
       const remoteExecution = args[3] !== 'localhost'
 
-      console.log("-- ChugSplash Approve --")
+      if (!silent) console.log("-- ChugSplash Approve --")
       await chugsplashApproveAbstractTask(provider, wallet, configPath, !withdrawFunds, silent, skipMonitorStatus, artifactPaths, "foundry", buildInfoFolder, artifactFolder, canonicalConfigPath, deploymentFolder, remoteExecution, process.stdout)
       break
     }
@@ -273,7 +277,7 @@ const command = args[0]
 
       const remoteExecution = args[3] !== 'localhost'
 
-      console.log("-- ChugSplash Monitor --")
+      if (!silent) console.log("-- ChugSplash Monitor --")
       await chugsplashMonitorAbstractTask(provider, wallet, configPath, !withdrawFunds, silent, newOwner, artifactPaths, buildInfoFolder, artifactFolder, canonicalConfigPath, deploymentFolder, "foundry", remoteExecution, process.stdout)
       break
     }
@@ -285,7 +289,7 @@ const command = args[0]
       const outPath = cleanPath(args[5])
       const buildInfoPath = cleanPath(args[6])
 
-      const { artifactFolder, buildInfoFolder, deploymentFolder, canonicalConfigPath } = fetchPaths(outPath, buildInfoPath)
+      const { artifactFolder, buildInfoFolder } = fetchPaths(outPath, buildInfoPath)
       const userConfig = readUserChugSplashConfig(configPath)
       const artifactPaths = await getArtifactPaths(
         userConfig.contracts,
@@ -324,7 +328,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- ChugSplash Withdraw --")
+      if (!silent) console.log("-- ChugSplash Withdraw --")
       await chugsplashWithdrawAbstractTask(provider, wallet, configPath, silent, artifactPaths, buildInfoFolder, artifactFolder, canonicalConfigPath, "foundry", process.stdout)
       break
     }
@@ -416,7 +420,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- ChugSplash Claim Proxy --")
+      if (!silent) console.log("-- ChugSplash Claim Proxy --")
       await chugsplashClaimProxyAbstractTask(provider, wallet, configPath, referenceName, silent, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -444,7 +448,7 @@ const command = args[0]
       await provider.getNetwork()
       await wallet.getAddress()
 
-      console.log("-- ChugSplash Transfer Proxy --")
+      if (!silent) console.log("-- ChugSplash Transfer Proxy --")
       await chugsplashTransferOwnershipAbstractTask(provider, wallet, configPath, proxyAddress, silent, artifactPaths, "foundry", process.stdout)
       break
     }
@@ -466,6 +470,21 @@ const command = args[0]
 
       const parsedConfig = await readParsedChugSplashConfig(provider, configPath, artifactPaths, "foundry")
       process.stdout.write(parsedConfig.contracts[referenceName].proxy)
+      break
+    }
+    case 'getRegistryAddress': {
+      process.stdout.write(CHUGSPLASH_REGISTRY_PROXY_ADDRESS)
+      break
+    }
+    case 'getEIP1967ProxyAdminAddress': {
+      const rpcUrl = args[1]
+      const proxyAddress = args[2]
+
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl)
+      const adminAddress = await getEIP1967ProxyAdminAddress(provider, proxyAddress)
+
+      process.stdout.write(adminAddress)
+      break
     }
   }
 })().catch((err: Error) => {
