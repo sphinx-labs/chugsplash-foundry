@@ -9,13 +9,14 @@ contract ChugSplash is Script, Test {
     using strings for *;
 
     string constant NONE = "none";
-
-    // Required env vars
-    string privateKey = vm.envString("PRIVATE_KEY");
-    string network = vm.envString("NETWORK");
+    uint256 constant DEFAULT_PRIVATE_KEY_UINT = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
+    string constant DEFAULT_PRIVATE_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+    string constant DEFAULT_NETWORK = "localhost";
 
     // Optional env vars
-    address newOwnerAddress = vm.envOr("NEW_OWNER", vm.addr(vm.envUint("PRIVATE_KEY")));
+    string privateKey = vm.envOr("PRIVATE_KEY", DEFAULT_PRIVATE_KEY);
+    string network = vm.envOr("NETWORK", DEFAULT_NETWORK);
+    address newOwnerAddress = vm.envOr("NEW_OWNER", vm.addr(vm.envOr("PRIVATE_KEY", DEFAULT_PRIVATE_KEY_UINT)));
     string newOwner = vm.toString(newOwnerAddress);
     bool withdrawFunds = vm.envOr("WITHDRAW_FUNDS", true);
     string ipfsUrl = vm.envOr("IPFS_URL", NONE);
@@ -28,6 +29,10 @@ contract ChugSplash is Script, Test {
         string referenceName;
         string contractName;
         address contractAddress;
+    }
+
+    constructor() {
+        vm.makePersistent(address(this));
     }
 
     function fetchPaths() private view returns (string memory outPath, string memory buildInfoPath) {
