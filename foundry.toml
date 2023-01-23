@@ -1,4 +1,4 @@
-g[profile.default]
+[profile.default]
 src = 'src'
 verbosity = 2
 libs = ['lib']
