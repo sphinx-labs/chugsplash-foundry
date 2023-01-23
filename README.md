@@ -1,6 +1,6 @@
 # ChugSplash Foundry
 
-A Foundry plugin for deploying and managing upgradeable smart contracts.
+A Foundry library for deploying and managing upgradeable smart contracts.
 
 If you're using Hardhat, check out out our [Hardhat plugin](https://github.com/chugsplash/chugsplash) instead. 
 

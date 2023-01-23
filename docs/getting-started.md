@@ -1,18 +1,19 @@
 # Getting Started
 
-In this guide, you'll learn how to deploy, test, and upgrade a contract using ChugSplash.
+In this guide, you'll learn how to deploy, upgrade, and test an upgradeable contract using ChugSplash.
 
 ## Table of Contents
 
 1. [Setup a Foundry project](#1-setup-a-foundry-project)
 2. [Install ChugSplash](#2-install-chugsplash)
 3. [Configure your `foundry.toml` file](#3-configure-your-foundrytoml-file)
-4. [Create a contract](#4-create-a-contract)
-5. [Create a ChugSplash file](#5-create-a-chugsplash-file)
-6. [Create your deployment script](#6-create-your-deployment-script)
-7. [Deploy with ChugSplash](#7-deploy-with-chugsplash)
-8. [Test with ChugSplash](#8-test-with-chugsplash)
-9. [Upgrade with ChugSplash](#9-upgrade-with-chugsplash)
+4. [Update remappings](#4-update-remappings)
+5. [Create a contract](#5-create-a-contract)
+6. [Create a ChugSplash file](#6-create-a-chugsplash-file)
+7. [Create your deployment script](#7-create-your-deployment-script)
+8. [Deploy with ChugSplash](#8-deploy-with-chugsplash)
+9. [Test with ChugSplash](#9-test-with-chugsplash)
+10. [Upgrade with ChugSplash](#10-upgrade-with-chugsplash)
 
 ## Prerequisites
 
@@ -62,17 +63,28 @@ build_info = true
 extra_output = ['storageLayout']
 force = true
 fs_permissions = [{ access = "read", path = "./"}]
-remappings = [
-  'chugsplash-foundry/=lib/chugsplash-foundry/'
-]
 
 [rpc_endpoints]
 localhost = "http://127.0.0.1:8545"
 ```
 
-## 4. Create a contract
+## 4. Update remappings
+
+If you don't have a `remappings.txt`, we recommend making one by running:
+```
+forge remappings > remappings.txt
+```
+
+Otherwise, if you already have an existing `remappings.txt` or have a `remappings` variable in your `foundry.toml`, copy and paste the following into it:
+```
+chugsplash-foundry/=lib/chugsplash-foundry/src/
+```
+
+## 5. Create a contract
 
 We'll now setup a ChugSplash project to deploy a single upgradeable contract, `HelloChugSplash.sol`.
+
+> Note: All contracts deployed using ChugSplash are upgradeable by default.
 
 First, define `HelloChugSplash.sol` in your contract source folder (usually, this is `src/`).
 
@@ -89,7 +101,7 @@ contract HelloChugSplash {
 }
 ```
 
-## 5. Create a ChugSplash file
+## 6. Create a ChugSplash file
 
 Next, we'll create a ChugSplash file, which contains all of the information necessary to deploy and upgrade your project. A ChugSplash file can be written in TypeScript, JavaScript, or JSON. In this guide, it'll be a JSON file. ChugSplash files are the only files in your project that are not written in Solidity.
 
@@ -122,7 +134,7 @@ Inside your newly created ChugSplash file, `hello-chugsplash.json`, copy and pas
 
 We'll explain the details of the ChugSplash file in the next guide.
 
-## 6. Create your deployment script
+## 7. Create your deployment script
 
 In the folder that contains your Foundry scripts (usually `script/`), create your deployment script. We'll call it `MyFirstProject.s.sol`.
 
@@ -153,7 +165,7 @@ contract ChugSplashScript is Script {
 
 Take a moment to read the comments in the file. In particular, note that it's required for you to import the source files of all the contracts you're deploying into your deployment script. For this project, the only file you need to import is `HelloChugSplash.sol`. This ensures that the latest artifacts of your contracts are included in the script. Don't worry if you forget to do this; we'll detect it and throw an error before the deployment is executed.
 
-## 7. Deploy with ChugSplash
+## 8. Deploy with ChugSplash
 
 > Note: When deploying, upgrading, or testing your contracts locally, you must always use an Anvil node running as a stand-alone process.
 
@@ -163,7 +175,7 @@ To create an Anvil node in a stand-alone process, run:
 anvil
 ```
 
-In another terminal window, run the following command to execute your deployment:
+In another terminal window, run the following command to deploy your upgradeable contract:
 
 ```
 forge script script/MyFirstProject.s.sol
@@ -178,7 +190,7 @@ You should see the following output:
 
 You've deployed your first upgradeable contract locally!
 
-## 8. Test with ChugSplash
+## 9. Test with ChugSplash
 
 In the folder that contains your Foundry tests (usually `test/`), create your test file. We'll call it `MyFirstProject.t.sol`.
 
@@ -237,11 +249,47 @@ Run your tests using the command:
 forge test
 ```
 
-## 9. Upgrade with ChugSplash
+## 10. Upgrade with ChugSplash
 
 Upgrades are defined in exactly the same format as deployments.
 
-To upgrade `HelloChugSplash`, navigate to your existing ChugSplash file, `hello-chugsplash.json`. Then, simply change the variables to new values. For example, change the `number` variable from `1` to `2`, or `storageName` from `"First"` to `"Second"`.
+To upgrade our contract, we'll first change the source code of our upgradeable contract. You can change the contract's source code to be anything you'd like, but for the purpose of this guide, we'll simply add a new variable, `newInt`, to the end of the contract. Navigate to `HelloChugSplash.sol`, then copy and paste the following:
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.15;
+
+contract HelloChugSplash {
+    uint public number;
+    bool public stored;
+    address public otherStorage;
+    string public storageName;
+
+    // New variable:
+    int public newInt;
+}
+```
+
+Then, update your existing ChugSplash file, `hello-chugsplash.json`, to assign a value to this new variable:
+```json
+{
+  "options": {
+    "projectName": "Hello ChugSplash"
+  },
+  "contracts": {
+    "HelloChugSplash": {
+      "contract": "HelloChugSplash",
+      "variables": {
+        "number": 1,
+        "stored": true,
+        "storageName": "First",
+        "otherStorage": "0x1111111111111111111111111111111111111111",
+        "newInt": -1 // New variable
+      }
+    }
+  }
+}
+```
 
 Then, run the same script that you used to deploy the contract initially:
 ```
@@ -255,6 +303,6 @@ You should see the same output as before:
   HelloChugSplash: 0x...
 ```
 
-If you update your tests in your test file, you'll be able to confirm that the variables were updated correctly.
+If you update your tests in your test file, you'll be able to confirm that the new variable was assigned its value correctly.
 
 That's all it takes to do an upgrade!
