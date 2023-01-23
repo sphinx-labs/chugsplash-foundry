@@ -1,4 +1,4 @@
-[profile.default]
+g[profile.default]
 src = 'src'
 verbosity = 2
 libs = ['lib']
@@ -8,7 +8,6 @@ ffi = true
 build_info = true
 extra_output = ['storageLayout']
 fs_permissions = [{ access = "read", path = "./"}]
-ignored_error_codes = [1878, 5574, 2519]
 force = true
 
 [rpc_endpoints]
