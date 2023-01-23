@@ -8,7 +8,7 @@ If you're using Hardhat, check out out our [Hardhat plugin](https://github.com/c
 
 - Deploy new upgradeable contracts
 - Upgrade existing contracts
-- Integrates with contracts deployed using the [OpenZeppelin Hardhat Upgrades plugin](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades)
+- Integrates with contracts deployed using the [OpenZeppelin Hardhat Upgrades API](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades)
 - Built-in storage layout safety checker
 - Automatically verifies contracts on Etherscan
 
