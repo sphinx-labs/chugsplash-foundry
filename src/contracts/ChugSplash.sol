@@ -23,7 +23,7 @@ contract ChugSplash is Script, Test {
     bool skipStorageCheck = vm.envOr("SKIP_STORAGE_CHECK", false);
 
     string rpcUrl = vm.rpcUrl(network);
-    string filePath = vm.envOr("DEV_FILE_PATH", string('./lib/ChugSplash/src/index.ts'));
+    string filePath = vm.envOr("DEV_FILE_PATH", string('./lib/chugsplash-foundry/src/index.ts'));
     
     struct ChugSplashContract {
         string referenceName;
