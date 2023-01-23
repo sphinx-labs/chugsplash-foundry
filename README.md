@@ -17,6 +17,7 @@ If you're using Hardhat, check out out our [Hardhat plugin](https://github.com/c
 1. [Getting Started](https://github.com/chugsplash/chugsplash-foundry/blob/main/docs/getting-started.md): Take your first steps with ChugSplash's Foundry plugin.
 2. [ChugSplash File](https://github.com/chugsplash/chugsplash/blob/develop/docs/chugsplash-file.md): Detailed explanation of the file where you deploy and upgrade a project.
 3. [Variables Reference](https://github.com/chugsplash/chugsplash/blob/develop/docs/variables.md): Explains how to assign values to every variable type in a ChugSplash file.
+4. [Using ChugSplash on Live Networks](https://github.com/chugsplash/chugsplash/blob/develop/docs/live-network.md): Instructions for using ChugSplash to deploy or upgrade a project on a live network.
 
 ## Supported Networks
 
