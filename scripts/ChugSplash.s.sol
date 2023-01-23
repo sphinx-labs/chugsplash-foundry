@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
-import "../src/contracts/ChugSplash.sol";
+import "../src/ChugSplash.sol";
 import "../src/SimpleStorage.sol";
 import "../src/Storage.sol";
 

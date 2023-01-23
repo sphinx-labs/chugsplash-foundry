@@ -2,7 +2,7 @@
 pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
-import "../src/contracts/ChugSplash.sol";
+import "../src/ChugSplash.sol";
 import "../src/Storage.sol";
 import { SimpleStorage } from "../src/SimpleStorage.sol";
 import { ChugSplashRegistry, ChugSplashManager, Proxy } from "chugsplash/packages/contracts/contracts/ChugSplashRegistry.sol";
