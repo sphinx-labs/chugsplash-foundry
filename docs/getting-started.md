@@ -70,7 +70,7 @@ localhost = "http://127.0.0.1:8545"
 
 ## 4. Update remappings
 
-If you don't have a `remappings.txt`, we recommend making one by running:
+If you're starting a new project, we recommend adding a `remappings.txt` in your project root by running:
 ```
 forge remappings > remappings.txt
 ```
@@ -144,7 +144,7 @@ Inside, copy and paste the following:
 pragma solidity ^0.8.15;
 
 import "forge-std/Script.sol";
-import "chugsplash-foundry/src/ChugSplash.sol";
+import "chugsplash-foundry/ChugSplash.sol";
 
 // You *must* import the source files of all contracts you're deploying into your deployment script.
 import "../src/HelloChugSplash.sol";
@@ -200,7 +200,7 @@ Inside, copy and paste the following:
 pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
-import "chugsplash-foundry/src/ChugSplash.sol";
+import "chugsplash-foundry/ChugSplash.sol";
 import "../src/HelloChugSplash.sol";
 
 contract ChugSplashTest is Test {
@@ -284,7 +284,7 @@ Then, update your existing ChugSplash file, `hello-chugsplash.json`, to assign a
         "stored": true,
         "storageName": "First",
         "otherStorage": "0x1111111111111111111111111111111111111111",
-        "newInt": -1 // New variable
+        "newInt": -1
       }
     }
   }
