@@ -55,7 +55,7 @@ contract ChugSplashScript is Script {
 }
 ```
 
-Make sure that you update the `chugsplashFilePath` variable with your ChugSplash file name.
+Make sure that you update the `chugsplashFilePath` variable to be the path from the project root to your ChugSplash file.
 
 Then, run this script using the command:
 ```bash
