@@ -68,7 +68,7 @@ You should see the following output:
 == Logs ==
   -- ChugSplash Register --
 - Registering Hello ChugSplash...
-✔ Project successfully registered on anvil. Owner: <your address>
+✔ Project successfully registered on <network>. Owner: <your address>
 ```
 
 ## Transfer Proxy Ownership
@@ -94,11 +94,11 @@ Inside your file, copy and paste the following:
 const hre = require('hardhat')
 require('@openzeppelin/hardhat-upgrades')
 const { getChugSplashManagerProxyAddress } = require('@chugsplash/core')
-// * Import your ChugSplash file below *
+// Import your ChugSplash file below:
 const { options } = require(path/to/chugsplash/file.json)
 
 // The address of the contract you're importing into ChugSplash
-const proxyAddress = *your proxy address*
+const proxyAddress = 'your proxy address'
 
 // Check that the ChugSplash file has a project name field.
 if (options.projectName === undefined) {
