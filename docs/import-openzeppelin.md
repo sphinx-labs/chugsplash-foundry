@@ -6,7 +6,7 @@ Currently, ChugSplash only integrates with Transparent proxies, which is the def
 
 ## Prerequisites
 
-* Own an existing proxy that was deployed using the OpenZeppelin Hardhat Upgrades API
+* You must own an existing proxy that was deployed using the OpenZeppelin Hardhat Upgrades API
 * Setup the ChugSplash Foundry library (steps 1-4 of the [Getting Started guide](https://github.com/chugsplash/chugsplash-foundry/blob/main/docs/getting-started.md))
 
 ## Create a Project Name
