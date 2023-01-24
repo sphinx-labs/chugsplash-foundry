@@ -178,7 +178,7 @@ anvil
 In another terminal window, run the following command to deploy your upgradeable contract:
 
 ```
-forge script script/MyFirstProject.s.sol
+forge script --rpc-url localhost script/MyFirstProject.s.sol
 ```
 
 You should see the following output:
@@ -246,7 +246,7 @@ Notice that you need to call `chugsplash.refresh()` after calling `chugsplash.de
 
 Run your tests using the command:
 ```
-forge test
+forge test --rpc-url localhost
 ```
 
 ## 10. Upgrade with ChugSplash
@@ -293,7 +293,7 @@ Then, update your existing ChugSplash file, `hello-chugsplash.json`, to assign a
 
 Then, run the same script that you used to deploy the contract initially:
 ```
-forge script script/MyFirstProject.s.sol
+forge script --rpc-url localhost script/MyFirstProject.s.sol
 ```
 
 You should see the same output as before:

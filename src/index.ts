@@ -59,6 +59,13 @@ const command = args[0]
       const address = await wallet.getAddress()
       owner = owner !== "self" ? owner : address
 
+      const remoteExecution = args[3] !== 'localhost'
+      if (remoteExecution) {
+        await monitorChugSplashSetup(provider, wallet)
+      } else {
+        await initializeExecutor(provider, privateKey, "error")
+      }
+
       if (!silent) console.log("-- ChugSplash Register --")
       await chugsplashRegisterAbstractTask(provider, wallet, config, owner, silent, 'foundry', process.stdout)
       break
