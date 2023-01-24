@@ -58,6 +58,7 @@ Edit your `foundry.toml` file to include all of the following options. If you le
 
 ```
 [profile.default]
+out = 'out'
 ffi = true
 build_info = true
 extra_output = ['storageLayout']
