@@ -65,6 +65,11 @@
   resolved "https://registry.yarnpkg.com/@chugsplash/contracts/-/contracts-0.4.0.tgz#f59c966be277b48297df10b1a9564ca75a980e7a"
   integrity sha512-0BYpkpM3NwKSE0y7eIuQy5kVm6SptKawpz1t2wH9nYvxKeeYydxFfs3lCeWqKzr6z5RVF59AazrIWZMDl6xb+A==
 
+"@chugsplash/contracts@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@chugsplash/contracts/-/contracts-0.4.1.tgz#836c3bd4ba8996925793848eac5b128b653102f1"
+  integrity sha512-yjwv++VvId3LLvwZmyN7SSpKmewDgxwjIUReA3US45CiGkuIna9fmXnhU/UfDKLp6MaVle+PiNFBW3yB4i8LAg==
+
 "@chugsplash/core@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@chugsplash/core/-/core-0.4.1.tgz#58ac346188f857062d4d2be4f070ff5540f842b3"
@@ -91,10 +96,36 @@
     semver "^7.3.8"
     yesno "^0.4.0"
 
-"@chugsplash/executor@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@chugsplash/executor/-/executor-0.5.1.tgz#d74906ca3e01456361b8e752fd2a68876f741838"
-  integrity sha512-abzl9Fr0btG5Jk/RSGqdq8uPK9a9b4AsEs49M+llY5UWgiCv3tIrbzgOTH4E0JSoDb32eKXVDdEut7nU5ehdbA==
+"@chugsplash/core@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@chugsplash/core/-/core-0.4.2.tgz#000da27c2233c361bc31090432f006a4a67b9f10"
+  integrity sha512-jT9gw8uuESZlGeq6TkzpHw1NkyPq5XUp9mRbW4c58qPoLoFOAMTLblcTYRhODsQuKCahn2TM4J4/OT8qXLHA2A==
+  dependencies:
+    "@amplitude/node" "^1.10.2"
+    "@chugsplash/contracts" "^0.4.0"
+    "@eth-optimism/common-ts" "^0.6.7"
+    "@eth-optimism/contracts-bedrock" "^0.8.0"
+    "@eth-optimism/core-utils" "^0.9.1"
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@openzeppelin/upgrades-core" "^1.20.6"
+    core-js "^3.27.1"
+    ethers "^5.6.9"
+    fs "^0.0.1-security"
+    handlebars "^4.7.7"
+    hardhat "^2.10.0"
+    hardhat-deploy "^0.11.18"
+    insight "^0.11.1"
+    ipfs-http-client "56.0.3"
+    ipfs-only-hash "^4.0.0"
+    merkletreejs "^0.2.18"
+    ora "^5.4.1"
+    semver "^7.3.8"
+    yesno "^0.4.0"
+
+"@chugsplash/executor@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@chugsplash/executor/-/executor-0.5.2.tgz#5df12e51b60d8baae0e4d6f0bf1ff739407ebf2e"
+  integrity sha512-hMUDVjB8y6JYf5K9w59ch530ZfB3qguiccC8gRbJUxRLsf++IspIYdkurmdjdHKZYnLwCwiBH7hg/vh6lih8WA==
   dependencies:
     "@amplitude/node" "^1.10.2"
     "@chugsplash/core" "^0.4.1"
