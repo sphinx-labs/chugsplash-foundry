@@ -56,10 +56,14 @@ contract ChugSplash is Script, Test {
         }
     }
 
+    function register(string memory configPath) public returns (bytes memory) {
+        return register(configPath, false);
+    }
+
     function register(
         string memory configPath,
         bool silent
-    ) external returns (bytes memory) {
+    ) public returns (bytes memory) {
         (string memory outPath, string memory buildInfoPath) = fetchPaths();
 
         string[] memory cmds = new string[](12);
