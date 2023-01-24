@@ -1,12 +1,14 @@
 # The Storage Layout Safety Checker
 
-When upgrading contracts, ChugSplash automatically checks that each new contract doesn't have storage layout compatibility issues with its existing contract. These issues can cause the upgraded version of the contract to have its storage values mixed up, which can lead to critical errors in your application. If ChugSplash detects any of these issues, it will throw an error before the upgrade happens.
+Read this guide if you want to learn about the storage layout issues that ChugSplash detects automatically.
 
-This guide explains the storage layout issues that ChugSplash detects automatically.
+When upgrading contracts, ChugSplash automatically checks that each new contract doesn't have storage layout compatibility issues with its existing contract. These issues can cause the upgraded version of the contract to have its storage values mixed up, which can lead to critical errors in your application. If ChugSplash detects any of these issues, it will throw an error before the upgrade happens.
 
 It's worth mentioning that these restrictions have their roots in how the Ethereum VM works, and apply to all tools that manage upgradeable contracts, not just ChugSplash.
 
 If you want to disable these checks, see the `SKIP_STORAGE_CHECK` configuration option [here](https://github.com/chugsplash/chugsplash-foundry/blob/main/docs/live-network.md#optional-variables).
+
+> Note: None of these rules apply to `immutable` and `constant` state variables because the Solidity compiler does not reserve a storage slot for them. [See here](https://solidity.readthedocs.io/en/latest/contracts.html#constant-state-variables) for a further explanation in the Solidity documentation.
 
 ## Correct Pattern
 
