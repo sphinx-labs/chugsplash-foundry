@@ -18,9 +18,7 @@ import {
   chugsplashClaimProxyAbstractTask,
   chugsplashTransferOwnershipAbstractTask,
   readUserChugSplashConfig,
-  chugsplashCommitAbstractSubtask,
-  parseChugSplashConfig,
-  getEIP1967ProxyAdminAddress
+  getEIP1967ProxyAdminAddress,
 } from '@chugsplash/core'
 import { BigNumber, ethers } from 'ethers'
 import ora from 'ora'
