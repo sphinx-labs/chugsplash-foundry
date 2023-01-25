@@ -11,6 +11,8 @@ If you're using Hardhat, check out our [Hardhat plugin](https://github.com/chugs
 - Integrates with contracts deployed using the [OpenZeppelin Hardhat Upgrades API](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-hardhat-upgrades)
 - Built-in storage layout safety checker
 - Automatically verifies contracts on Etherscan
+- Deploys contracts at the same addresses across networks via `CREATE2`
+- Generates deployment artifacts in the same format as hardhat-deploy
 
 ## Documentation
 
