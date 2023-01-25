@@ -58,6 +58,7 @@ Edit your `foundry.toml` file to include all of the following options. If you le
 
 ```
 [profile.default]
+out = 'out'
 ffi = true
 build_info = true
 extra_output = ['storageLayout']
@@ -178,7 +179,7 @@ anvil
 In another terminal window, run the following command to deploy your upgradeable contract:
 
 ```
-forge script script/MyFirstProject.s.sol
+forge script --rpc-url localhost script/MyFirstProject.s.sol
 ```
 
 You should see the following output:
@@ -246,14 +247,14 @@ Notice that you need to call `chugsplash.refresh()` after calling `chugsplash.de
 
 Run your tests using the command:
 ```
-forge test
+forge test --rpc-url localhost
 ```
 
 ## 10. Upgrade with ChugSplash
 
 Upgrades are defined in exactly the same format as deployments.
 
-To upgrade our contract, we'll first change the source code of our upgradeable contract. You can change the contract's source code to be anything you'd like, but for the purpose of this guide, we'll simply add a new variable, `newInt`, to the end of the contract. Navigate to `HelloChugSplash.sol`, then copy and paste the following:
+To upgrade our contract, we'll first change its source code. You can change it to be anything you'd like, but for the purpose of this guide, we'll simply add a new variable, `newInt`, to the end of the contract. Open `HelloChugSplash.sol`, then copy and paste the following:
 
 ```sol
 // SPDX-License-Identifier: MIT
@@ -291,9 +292,11 @@ Then, update your existing ChugSplash file, `hello-chugsplash.json`, to assign a
 }
 ```
 
+Optionally, you can change the values of the other variables. For example, you can change `"number"` from `1` to `2`, or `"storageName"` from `"First"` to `"Second"`.
+
 Then, run the same script that you used to deploy the contract initially:
 ```
-forge script script/MyFirstProject.s.sol
+forge script --rpc-url localhost script/MyFirstProject.s.sol
 ```
 
 You should see the same output as before:
@@ -303,6 +306,6 @@ You should see the same output as before:
   HelloChugSplash: 0x...
 ```
 
-If you update your tests in your test file, you'll be able to confirm that the new variable was assigned its value correctly.
+If you update your tests in your test file, you'll be able to confirm that the contract was upgraded correctly.
 
 That's all it takes to do an upgrade!
