@@ -193,7 +193,7 @@ const command = args[0]
       }
 
       const now = new Date()
-      const logWriter = fs.createWriteStream(`${logPath}/${now.toISOString()}`)
+      const logWriter = fs.createWriteStream(`${logPath}/deploy-${now.getTime()}`)
 
       const { artifactFolder, buildInfoFolder, deploymentFolder, canonicalConfigPath } = fetchPaths(outPath, buildInfoPath)
       const userConfig = readUserChugSplashConfig(configPath)
